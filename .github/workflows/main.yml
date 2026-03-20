@@ -1,22 +1,32 @@
 name: Build FolCam APK
 on: [push, pull_request]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Dependencies
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Install System Dependencies
         run: |
           sudo apt update
-          sudo apt install -y python3-pip build-essential git python3 python3-dev ffmpeg libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev
+          sudo apt install -y python3-pip build-essential git python3 python3-dev ffmpeg libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev libncurses5
           pip3 install --user --upgrade Cython==0.29.33 wheel buildozer
 
       - name: Build with Buildozer
         run: |
           export PATH=$PATH:~/.local/bin
-          buildozer android debug --allow-root
+          # Licenses स्वीकार करने के लिए 'yes' कमांड का उपयोग
+          yes | buildozer android debug --allow-root
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
