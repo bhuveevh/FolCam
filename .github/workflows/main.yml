@@ -5,16 +5,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Build with Buildozer
-        uses: ArtemSerebriakov/buildozer-action@v1
+        # हमने यहाँ एक नया और एक्टिव मेंटेन किया हुआ एक्शन इस्तेमाल किया है
+        uses: Pozos/buildozer-action@v2
         with:
           command: buildozer android debug --allow-root
           buildozer_version: master
 
       - name: Upload APK Artifact
-        uses: actions/upload-artifact@v3
+        # यहाँ v3 की जगह v4 कर दिया है जैसा एरर में माँगा गया था
+        uses: actions/upload-artifact@v4
         with:
           name: FolCam-Package
           path: bin/*.apk
