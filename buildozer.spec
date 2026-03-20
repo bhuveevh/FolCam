@@ -15,7 +15,7 @@ icon.filename = %(source.dir)s/folcam.svg
 # Orientation
 orientation = portrait
 
-# Requirements (GitHub build ke liye important)
+# Requirements
 requirements = python3,kivy==2.1.0,kivymd==1.1.1,plyer,pillow
 
 # Android API
